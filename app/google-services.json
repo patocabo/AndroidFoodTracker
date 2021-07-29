@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "832775190439",
+    "project_id": "tpfinalneo",
+    "storage_bucket": "tpfinalneo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832775190439:android:15c84633068863857b6882",
+        "android_client_info": {
+          "package_name": "com.example.cabo.tp4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832775190439-ved6jlfvsu0udp4p00scv9q73iuiidgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-tNcdhrgJ99CxM5RmgkxcPc-fgIaefEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832775190439-ved6jlfvsu0udp4p00scv9q73iuiidgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
