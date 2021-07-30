@@ -56,6 +56,6 @@
     <fragment
         android:id="@+id/registroFragment"
         android:name="com.example.cabo.tp4.view.RegistroFragment"
-        android:label="fragment_registro"
+        android:label="Registro de alimentos"
         tools:layout="@layout/fragment_registro" />
 </navigation>

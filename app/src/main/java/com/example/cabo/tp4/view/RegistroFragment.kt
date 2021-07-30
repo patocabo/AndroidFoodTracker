@@ -37,8 +37,8 @@ class RegistroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initialize()
         setUpObservers()
-
         setUpTabChange()
+        registroVM.getComidas("DESAYUNO")
 
     }
 
@@ -58,7 +58,7 @@ class RegistroFragment : Fragment() {
             if (it) {
                 loading.visibility = View.VISIBLE
             } else {
-                loading.visibility = View.GONE
+                loading.visibility = View.INVISIBLE
             }
         })
     }
