@@ -10,4 +10,5 @@ interface ApiProtocol {
     fun insertUserData(user: User, uuid: String, callback: (Boolean) -> Unit)
     fun getUserData(uuid: String, callback: (User?) -> Unit)
     fun insertComidaData(comida: Comida, uuid: String, callback: (Boolean) -> Unit)
+    fun getComidasByType(uuid: String, type:String, callback: (List<Comida>) -> Unit)
 }

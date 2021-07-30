@@ -11,5 +11,10 @@
             android:title="@string/menu_comidas"
             android:icon="@drawable/ic_baseline_fastfood_24"
             android:checked="true"/>
+        <item
+            android:id="@+id/registroFragment"
+            android:title="@string/menu_comidas"
+            android:icon="@drawable/ic_baseline_fastfood_24"
+            android:checked="true"/>
     </group>
 </menu>
