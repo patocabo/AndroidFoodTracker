@@ -6,4 +6,10 @@
     <string name="card_c_postre">Postre</string>
     <string name="card_t_tent">Se tento</string>
     <string name="card_c_hambre">Quedo hambriento</string>
+    <string name="login_t_welcome">Bienvenido a Saludable!</string>
+    <string name="signup_t_welcome">Registro</string>
+    <string name="login_email">Email</string>
+    <string name="password">Password</string>
+    <string name="b_login">Ingresar</string>
+    <string name="login_b_registr">Registrarse</string>
 </resources>

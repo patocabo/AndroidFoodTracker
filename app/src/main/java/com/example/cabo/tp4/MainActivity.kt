@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listener: NavController.OnDestinationChangedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Tp4)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
