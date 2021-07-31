@@ -4,7 +4,7 @@ import java.io.Serializable
 
 data class Bebida(
     val drinks: List<Drink>
-)
+): Serializable
 
 data class Drink(
     val strCategory: String,

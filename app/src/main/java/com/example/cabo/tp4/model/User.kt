@@ -7,8 +7,8 @@ data class User(
     var nombre: String? = "",
     var apellido: String? = "",
     var dni: Long? = 0,
-    var sexo: Sexo? = Sexo.MASCULINO,           //TODO Chequear los constructores si son necesarios ""
-    var fechNac: Date? = Date(),
+    var sexo: Sexo? = Sexo.MASCULINO,
+    var fechNac: String = "",
     var localidad: String? = "",
     var usuario: String? = "",
     var contrasena: String? = "",

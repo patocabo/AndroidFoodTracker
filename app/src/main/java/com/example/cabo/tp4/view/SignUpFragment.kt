@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.cabo.tp4.R
 import com.example.cabo.tp4.utils.FieldValidation
 import com.example.cabo.tp4.viewmodel.SignUpViewModel
@@ -41,7 +42,11 @@ class SignUpFragment : Fragment() {
 
     private fun setOnClickListeners() {
         register.setOnClickListener {
-            firebaseSignUpVM.signUp(email.text.toString(),password.text.toString(),passwordConfirmation.text.toString())
+            firebaseSignUpVM.signUp(
+                email.text.toString(),
+                password.text.toString(),
+                passwordConfirmation.text.toString()
+            )
         }
     }
 
@@ -68,14 +73,17 @@ class SignUpFragment : Fragment() {
 
         //Si el registro es correcto va a fragmento de user logueado
         firebaseSignUpVM.registrationStatus.observe(viewLifecycleOwner, {
-            when (it) {
-//                Result.success(true) -> findNavController().navigate(
-//                    R.id.action_signUpFragment_to_loggedInFragment
-//                )
-                Result.success(false) -> Toast.makeText(
+            if (it) {
+                findNavController().navigate(
+                    R.id.action_signUpFragment_to_profileFragment
+                )
+                Toast.makeText(view?.context, "Por favor complete sus datos", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                Toast.makeText(
                     view?.context,
                     "No se ha podido registrar el usuario. Intente nuevamente.",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
             }
         })

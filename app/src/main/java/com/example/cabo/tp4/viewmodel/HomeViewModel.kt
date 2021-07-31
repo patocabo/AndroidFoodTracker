@@ -9,7 +9,7 @@ import com.example.cabo.tp4.dao.FirestoreHelper
 
 class HomeViewModel : ViewModel() {
 
-    private val _usuario = MutableLiveData<User?>()          ///TODO PONER LOADING EN VISTA
+    private val _usuario = MutableLiveData<User?>()
     val usuario: LiveData<User?> = _usuario
 
     private var _loading = MutableLiveData<Boolean>()
@@ -19,7 +19,7 @@ class HomeViewModel : ViewModel() {
     val signOutStatus: LiveData<Result<Boolean>> = _signOutStatus
 
     private val _deleted = MutableLiveData<Boolean>()
-    val deleted : LiveData<Boolean> = _deleted
+    val deleted: LiveData<Boolean> = _deleted
 
     fun signOut() {
         _loading.postValue(true)
@@ -34,16 +34,21 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-
-
     fun loadUserData() {
         _loading.postValue(true)
         AuthHelper.instance.persona.uuid?.let {
             val db = FirestoreHelper()
-            db.getUserData(AuthHelper.instance.persona.uuid!!) {
-                _usuario.postValue(it)
+            db.getUserData(it) { user ->
+                _usuario.postValue(user)
                 _loading.postValue(false)
             }
+        }
+    }
+
+    fun deleteUserDate() {
+        AuthHelper.instance.persona.uuid?.let {
+            val db = FirestoreHelper()
+            db.deleteUserData(it)
         }
     }
 

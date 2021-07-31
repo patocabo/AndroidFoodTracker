@@ -1,6 +1,5 @@
 package com.example.cabo.tp4.viewmodel
 
-import android.text.TextUtils
 import android.util.Patterns
 import androidx.lifecycle.*
 import com.example.cabo.tp4.auth.AuthHelper
@@ -19,24 +18,19 @@ class LoginViewModel : ViewModel() {
     private val _passwordValidation = MutableLiveData<FieldValidation>()
     val passwordValidation: LiveData<FieldValidation> = _passwordValidation
 
-    private val _signInStatus = MutableLiveData<Result<Boolean>>()
-    val signInStatus: LiveData<Result<Boolean>> = _signInStatus
+    private val _signInStatus = MutableLiveData<Boolean>()
+    val signInStatus: LiveData<Boolean> = _signInStatus
 
     fun signIn(email: String, password: String) {
         _loading.postValue(true)
         if (isPasswordValid(password) && isEmailValid(email)) {
             try {
                 AuthHelper.instance.signIn(email, password) {
-                    if (it) {
-                        _signInStatus.postValue(Result.success(true))
-                    } else {
-                        _signInStatus.postValue(Result.success(false))
-                    }
+                    _signInStatus.postValue(it)
                     _loading.postValue(false)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                _signInStatus.postValue(Result.failure(e))
                 _loading.postValue(false)
             }
         } else {
@@ -44,9 +38,9 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun isEmailValid(email: String): Boolean { //TODO Agregar validaciones
+    fun isEmailValid(email: String): Boolean {
         when {
-            TextUtils.isEmpty(email) -> {
+            email.isEmpty() -> {
                 _mailValidation.postValue(FieldValidation.EMPTY)
                 return false
             }
@@ -63,7 +57,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun isPasswordValid(password: String): Boolean { //TODO Agregar validaciones password
+    fun isPasswordValid(password: String): Boolean { //TODO Agregar validaciones password
         when {
             password.length < 6 -> {
                 _passwordValidation.postValue(FieldValidation.PASSWORD_LENGHT_FAIL)

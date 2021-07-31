@@ -37,7 +37,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         appBarConfiguration = AppBarConfiguration(
-            topLevelDestinationIds = setOf(R.id.homeFragment,R.id.comidaFragment,R.id.registroFragment),
+            topLevelDestinationIds = setOf(
+                R.id.homeFragment,
+                R.id.comidaFragment,
+                R.id.registroFragment
+            ),
             drawerLayout,
             fallbackOnNavigateUpListener = ::onSupportNavigateUp
         )

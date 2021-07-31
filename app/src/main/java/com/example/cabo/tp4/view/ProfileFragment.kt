@@ -17,7 +17,9 @@ import com.example.cabo.tp4.model.Sexo
 import com.example.cabo.tp4.model.Tratamiento
 import com.example.cabo.tp4.viewmodel.ProfileViewModel
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class ProfileFragment : Fragment() {
@@ -26,7 +28,7 @@ class ProfileFragment : Fragment() {
     private lateinit var apellido: TextInputLayout
     private lateinit var dni: TextInputLayout
     private lateinit var sexo: TextInputLayout
-    private lateinit var fechNac: TextInputLayout
+    private lateinit var fechNac: TextInputEditText
     private lateinit var localidad: TextInputLayout
     private lateinit var tratamiento: TextInputLayout
     private lateinit var profileVM: ProfileViewModel
@@ -45,9 +47,8 @@ class ProfileFragment : Fragment() {
         initialize()
         setOnClickListeners()
         setUpObservers()
-        setTextWatches()
         profileVM.loadUserData()
-
+        setTextWatches()
     }
 
     private fun initialize() {
@@ -62,29 +63,19 @@ class ProfileFragment : Fragment() {
         edit = view?.findViewById(R.id.frp_b_edit)!!
         save = view?.findViewById(R.id.frc_b_save)!!
         loading = view?.findViewById(R.id.frp_loading)!!
-
-        val adapterSexo = ArrayAdapter(requireContext(), R.layout.dropdowns, Sexo.values())
-        (sexo.editText as? AutoCompleteTextView)?.setAdapter(adapterSexo)
-
-        val adapterTratamiento =
-            ArrayAdapter(requireContext(), R.layout.dropdowns, Tratamiento.values())
-        (tratamiento.editText as? AutoCompleteTextView)?.setAdapter(adapterTratamiento)
-
+        setSpinners()
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun setUpObservers() {
         profileVM.usuario.observe(viewLifecycleOwner, {
             it?.let {
                 nombre.editText?.setText(it.nombre)
                 apellido.editText?.setText(it.apellido)
                 dni.editText?.setText(it.dni.toString())
-                val formatter = SimpleDateFormat("dd/MM/yyy")
-                fechNac.editText?.setText(formatter.format(it.fechNac))
-                sexo.editText?.setText(it.sexo.toString())
+                sexo.editText?.setText(it.sexo?.name.toString())
+                fechNac.setText(it.fechNac)
                 localidad.editText?.setText(it.localidad)
-                tratamiento.editText?.setText(it.tratamiento.toString())
-
+                tratamiento.editText?.setText(it.tratamiento?.name.toString())
             }
         })
         profileVM.dataInserted.observe(viewLifecycleOwner, {
@@ -107,13 +98,23 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
+        fechNac.setOnClickListener {
+            val format = "dd/MM/yyyy"
+            val x = SimpleDateFormat(format)
+            val builder = MaterialDatePicker.Builder.datePicker()
+            val picker = builder.build()
+            picker.show(childFragmentManager, picker.toString())
+            picker.addOnPositiveButtonClickListener {
+                fechNac.setText(x.format(it))
+            }
+        }
         save.setOnClickListener {
             profileVM.saveData(
                 nombre.editText?.text.toString(),
                 apellido.editText?.text.toString(),
                 dni.editText?.text.toString().toLong(),
                 sexo.editText?.text.toString(),
-                fechNac.editText?.text.toString(),
+                fechNac.text.toString(),
                 localidad.editText?.text.toString(),
                 tratamiento.editText?.text.toString()
             )
@@ -124,14 +125,13 @@ class ProfileFragment : Fragment() {
         val textWatcher: TextWatcher = object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 enableSave()
-
             }
 
             override fun beforeTextChanged(
                 s: CharSequence, start: Int, count: Int,
                 after: Int
             ) {
-
+                enableSave()
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -150,11 +150,19 @@ class ProfileFragment : Fragment() {
         save.isEnabled = dni.editText?.text?.isNotEmpty() == true &&
                 nombre.editText?.text?.isNotEmpty() == true &&
                 apellido.editText?.text?.isNotEmpty() == true &&
-                sexo.editText?.text?.isNotEmpty() == true &&
                 localidad.editText?.text?.isNotEmpty() == true &&
-                tratamiento.editText?.text?.isNotEmpty() == true &&
-                fechNac.editText?.text?.isNotEmpty() == true
+                sexo.editText?.text?.isNotEmpty() == true &&
+                fechNac.text?.isNotEmpty() == true &&
+                tratamiento.editText?.text?.isNotEmpty() == true
         edit.isEnabled = save.isEnabled
     }
 
+    private fun setSpinners() {
+        val adapterSexo = ArrayAdapter(requireContext(), R.layout.dropdowns, Sexo.values())
+        (sexo.editText as? AutoCompleteTextView)?.setAdapter(adapterSexo)
+
+        val adapterTratamiento =
+            ArrayAdapter(requireContext(), R.layout.dropdowns, Tratamiento.values())
+        (tratamiento.editText as? AutoCompleteTextView)?.setAdapter(adapterTratamiento)
+    }
 }

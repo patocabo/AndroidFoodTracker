@@ -6,7 +6,6 @@ import com.example.cabo.tp4.dao.FirestoreHelper
 import com.example.cabo.tp4.model.Sexo
 import com.example.cabo.tp4.model.Tratamiento
 import com.example.cabo.tp4.model.User
-import java.util.*
 
 
 class ProfileViewModel : ViewModel() {
@@ -31,7 +30,7 @@ class ProfileViewModel : ViewModel() {
             apellido,
             dni,
             Sexo.valueOf(sexo),
-            Date(fechNac),
+            fechNac,
             localidad,
             "",
             "",
@@ -41,7 +40,6 @@ class ProfileViewModel : ViewModel() {
         }
             _dataInserted.postValue(true)
     }
-
 
     private val _usuario = MutableLiveData<User?>()
     val usuario: LiveData<User?> = _usuario
@@ -57,6 +55,4 @@ class ProfileViewModel : ViewModel() {
             }
         }
     }
-
-
 }

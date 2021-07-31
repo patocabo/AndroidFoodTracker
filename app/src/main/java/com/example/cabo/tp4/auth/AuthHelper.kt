@@ -16,22 +16,17 @@ class AuthHelper : AuthInterface {
     init {
         auth.addAuthStateListener {
             persona.uuid = it.currentUser?.uid
-            //persona.uuid?.let { } ///TODO Guardar usuario global?
         }
     }
 
     override fun signOut() {
         auth.signOut()
-        persona.uuid = null ///TODO Chequear si esta demas
+        persona.uuid = null
     }
 
     override fun signIn(email: String, password: String, callback: (Boolean) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
-                callback(true)
-            } else {
-                callback(false)
-            }
+            callback(it.isSuccessful)
         }
     }
 
@@ -41,11 +36,7 @@ class AuthHelper : AuthInterface {
         callback: (Boolean) -> Unit
     ) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
-                callback(true)
-            } else {
-                callback(false)
-            }
+            callback(it.isSuccessful)
         }
     }
 

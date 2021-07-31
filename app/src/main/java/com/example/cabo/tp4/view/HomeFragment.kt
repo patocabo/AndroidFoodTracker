@@ -44,7 +44,6 @@ class HomeFragment : Fragment() {
         setOnClickListeners()
         setUpObservers()
         homeVm.loadUserData()
-
     }
 
     private fun initialize() {
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun setUpObservers() {
-        homeVm.loading.observe(viewLifecycleOwner ,{
+        homeVm.loading.observe(viewLifecycleOwner, {
             if (it) {
                 loading.visibility = View.VISIBLE
             } else {
@@ -82,19 +81,25 @@ class HomeFragment : Fragment() {
             it?.let {
                 nombre.editText?.setText(it.nombre + " " + it.apellido)
                 dni.editText?.setText(it.dni.toString())
-                val formatter = SimpleDateFormat("dd/MM/yyy")
-                fechNac.editText?.setText(formatter.format(it.fechNac))
+                fechNac.editText?.setText(it.fechNac)
                 sexo.editText?.setText(it.sexo.toString())
                 localidad.editText?.setText(it.localidad)
                 tratamiento.editText?.setText(it.tratamiento.toString())
-
+            } ?: run {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setMessage("Por favor ingrese sus datos para continuar.")
+                    .setPositiveButton("completar perfil") { dialog, which ->
+                        findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+                    }
+                    .setCancelable(false)
+                    .show()
             }
 
         })
         homeVm.deleted.observe(viewLifecycleOwner, {
             if (it) {
                 Toast.makeText(context, "Los datos han sido borrados.", Toast.LENGTH_LONG).show()
-                //findNavController().navigate(R.id.action_profileFragment_to_loggedInFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
             }
         })
     }
@@ -113,13 +118,14 @@ class HomeFragment : Fragment() {
 
     private fun setAlert() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Borrar Registro")
-            .setMessage("Esta seguro que desea borrar el registro?")
+            .setTitle("Borrar datos")
+            .setMessage("Esta seguro que desea borrar todos los datos?. No se borraran los registros.")
             .setNeutralButton("Cancelar") { dialog, which ->
                 // Respond to neutral button press
             }
             .setNegativeButton("Borrar") { dialog, which ->
-                // homeVm.deleteUserData()
+                homeVm.deleteUserDate()
+                findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
             }
             .show()
     }

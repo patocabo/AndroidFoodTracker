@@ -30,7 +30,6 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -38,9 +37,7 @@ class LoginFragment : Fragment() {
         initialize()
         setOnClickListeners()
         setObservers()
-
     }
-
 
     private fun initialize() {
         login = view?.findViewById(R.id.frhome_b_login)!!
@@ -73,38 +70,33 @@ class LoginFragment : Fragment() {
 
         //Observer signin status
 
-        loginVM.signInStatus.observe(viewLifecycleOwner, { result ->
-            result?.let {
+        loginVM.signInStatus.observe(viewLifecycleOwner, {
+            if (it) {
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            } else {
+                Toast.makeText(this.context, "Error en las credenciales", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+//observer mail validation
+        loginVM.mailValidation.observe(viewLifecycleOwner,
+            {
                 when (it) {
-                    Result.success(true) -> {
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                    }
-                    Result.success(false) -> Toast.makeText(
-                        this.context,
-                        "Error en las credenciales",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    FieldValidation.EMAIL_BAD_FORMAT -> editEmail.error =
+                        "El formato de mail es invalido."
+                    FieldValidation.EMPTY -> editEmail.error =
+                        "El campo email no puede estar vacio."
                 }
-            }
-        })
+            })
 
-        //observer mail validation
-        loginVM.mailValidation.observe(viewLifecycleOwner, {
-            when (it) {
-                FieldValidation.EMAIL_BAD_FORMAT -> editEmail.error =
-                    "El formato de mail es invalido."
-                FieldValidation.EMPTY -> editEmail.error = "El campo email no puede estar vacio."
-            }
-        })
-
-        //observer password validator
-        loginVM.passwordValidation.observe(viewLifecycleOwner, {
-            when (it) {
-                FieldValidation.PASSWORD_LENGHT_FAIL -> editPassword.error =
-                    "El password ingresado tiene menos de 6 caracteres."
-            }
-        })
+//observer password validator
+        loginVM.passwordValidation.observe(viewLifecycleOwner,
+            {
+                when (it) {
+                    FieldValidation.PASSWORD_LENGHT_FAIL -> editPassword.error =
+                        "El password ingresado tiene menos de 6 caracteres."
+                }
+            })
     }
-
-
 }

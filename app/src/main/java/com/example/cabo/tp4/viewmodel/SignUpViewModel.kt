@@ -21,24 +21,19 @@ class SignUpViewModel : ViewModel() {
     val passwordValidation: LiveData<FieldValidation> =
         _passwordValidation
 
-    private val _registrationStatus = MutableLiveData<Result<Boolean>>()
-    val registrationStatus: LiveData<Result<Boolean>> = _registrationStatus
+    private val _registrationStatus = MutableLiveData<Boolean>()
+    val registrationStatus: LiveData<Boolean> = _registrationStatus
 
     fun signUp(email: String, password: String, password_confirmation: String) {
         _loading.postValue(true)
         if (isEmailValid(email) && isPasswordValid(password, password_confirmation)) {
             try {
                 AuthHelper.instance.createUserWithEmailAndPassword(email, password) {
-                    if (it) {
-                        _registrationStatus.postValue(Result.success(true))
-                    } else {
-                        _registrationStatus.postValue(Result.success(false))
-                    }
+                   _registrationStatus.postValue(it)
                     _loading.postValue(false)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                _registrationStatus.postValue(Result.failure(e))
                 _loading.postValue(false)
             }
         } else {
@@ -48,7 +43,7 @@ class SignUpViewModel : ViewModel() {
 
     private fun isEmailValid(email: String): Boolean {
         when {
-            TextUtils.isEmpty(email) -> {
+            email.isEmpty() -> {
                 _mailValidation.postValue(FieldValidation.EMPTY)
                 return false
             }

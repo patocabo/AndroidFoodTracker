@@ -46,6 +46,10 @@ class FirestoreHelper : ApiProtocol {
             Log.e("FIREBASE ERROR ", it.message.toString(),it )
         }
     }
+
+    override fun deleteUserData(uuid: String) {
+        collectionPersonas.document(uuid).delete()
+    }
 }
 
 

@@ -13,7 +13,7 @@
             android:checked="true"/>
         <item
             android:id="@+id/registroFragment"
-            android:title="Mi registro"
+            android:title="@string/menu_registro"
             android:icon="@drawable/ic_baseline_assignment_24"
             android:checked="true"/>
     </group>
