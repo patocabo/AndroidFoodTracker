@@ -188,7 +188,7 @@ class ComidaFragment : Fragment() {
                     "Tenes el siguiente permitido: "
         )
         bebidaDialog.setView(view)
-        bebidaDialog.show().window?.setLayout(1300, 2100)
+        bebidaDialog.show().window?.setLayout(650, 1050)
 
     }
 
