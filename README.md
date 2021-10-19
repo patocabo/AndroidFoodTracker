@@ -3,9 +3,11 @@
 AndroidFoodTracker es una aplicación desarrollada en Kotlin y esta orientada a pacientes de un consultorio de nutrición.
 El objetivo es que estos puedan llevar un trackeo de las comidas que consumen diariamente.
 
+
 ## Arquitectura
 
 La aplicacion se desarrolló siguiendo la arquitectura MVVM y single-activity. 
+
 
 ## Autenticación
 
@@ -18,9 +20,6 @@ Usuario ejemplo:
 
 Usted también podra registrar su propio usuario.
 
-## Pre-requisitos 📋
-
-minSdkVersion 28
 
 ## Funcionamiento de la aplicación
 
